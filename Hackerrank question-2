@@ -1,0 +1,91 @@
+import java.util.Scanner;
+
+class NASAMission {
+    String missionName;
+    int launchYear;
+    String destination;
+
+    NASAMission(String missionName, int launchYear, String destination) {
+        this.missionName = missionName;
+        this.launchYear = launchYear;
+        this.destination = destination;
+    }
+
+    void displayMissionType() {
+        System.out.println("Mission Type: NASA Mission");
+    }
+
+    void displayDetails() {
+        System.out.println("Mission Name: " + missionName);
+        System.out.println("Launch Year: " + launchYear);
+        System.out.println("Destination: " + destination);
+    }
+}
+
+class MarsMission extends NASAMission {
+    int numberOfRovers;
+
+    MarsMission(String missionName, int launchYear, String destination, int numberOfRovers) {
+        super(missionName, launchYear, destination);
+        this.numberOfRovers = numberOfRovers;
+    }
+
+    @Override
+    void displayMissionType() {
+        System.out.println("Mission Type: Mars Exploration");
+    }
+
+    void displayDetails() {
+        super.displayDetails();
+        displayMissionType();
+        System.out.println("Number of Rovers: " + numberOfRovers);
+    }
+}
+
+class MoonMission extends NASAMission {
+    int numberOfAstronauts;
+
+    MoonMission(String missionName, int launchYear, String destination, int numberOfAstronauts) {
+        super(missionName, launchYear, destination);
+        this.numberOfAstronauts = numberOfAstronauts;
+    }
+
+    @Override
+    void displayMissionType() {
+        System.out.println("Mission Type: Lunar Exploration");
+    }
+
+    void displayDetails() {
+        super.displayDetails();
+        displayMissionType();
+        System.out.println("Number of Astronauts: " + numberOfAstronauts);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String missionType = sc.nextLine();
+        String missionName = sc.nextLine();
+        int launchYear = Integer.parseInt(sc.nextLine());
+        String destination = sc.nextLine();
+        int specificDetails = Integer.parseInt(sc.nextLine());
+
+        NASAMission mission;
+
+        if (missionType.equalsIgnoreCase("Mars")) {
+            mission = new MarsMission(
+                missionName, launchYear, destination, specificDetails
+            );
+        } else {
+            mission = new MoonMission(
+                missionName, launchYear, destination, specificDetails
+            );
+        }
+
+        mission.displayDetails();
+
+        sc.close();
+    }
+}
