@@ -1,0 +1,57 @@
+interface SmartDevices {
+
+    interface Appliance {
+        void turnOn();
+        void turnOff();
+    }
+
+    class Light implements Appliance {
+        public void turnOn() {
+            System.out.println("Light is ON");
+        }
+
+        public void turnOff() {
+            System.out.println("Light is OFF");
+        }
+    }
+
+    class Fan implements Appliance {
+        public void turnOn() {
+            System.out.println("Fan is ON");
+        }
+
+        public void turnOff() {
+            System.out.println("Fan is OFF");
+        }
+    }
+
+    class AirConditioner implements Appliance {
+        public void turnOn() {
+            System.out.println("Air Conditioner is ON");
+        }
+
+        public void turnOff() {
+            System.out.println("Air Conditioner is OFF");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        SmartDevices.Light light = new SmartDevices.Light();
+        SmartDevices.Fan fan = new SmartDevices.Fan();
+        SmartDevices.AirConditioner ac =
+                new SmartDevices.AirConditioner();
+
+        light.turnOn();
+        fan.turnOn();
+        ac.turnOn();
+
+        System.out.println();
+
+        light.turnOff();
+        fan.turnOff();
+        ac.turnOff();
+    }
+}
