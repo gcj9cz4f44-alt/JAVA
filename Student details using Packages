@@ -1,0 +1,18 @@
+package mypackage;
+
+public class Student {
+    public void display() {
+        System.out.println("name;arun");
+        System.out.println("marks;85");
+        System.out.println("grade;A");
+    }
+}
+
+import mypackage.Student;
+
+public class Main {
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.display();
+    }
+}
