@@ -1,0 +1,54 @@
+// code
+
+
+import java.util.Scanner;
+
+public class StudentEligibility {
+
+    static void checkAge(int age) throws Exception {
+        if (age < 18) {
+            throw new Exception("Age is invalid. Student must be 18 or above.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            System.out.print("Enter student name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Enter student age: ");
+            int age = sc.nextInt();
+
+            try {
+                checkAge(age);
+
+                System.out.println("Student Name: " + name);
+                System.out.println("Student is eligible for admission.");
+            }
+            catch (Exception e) {
+                System.out.println("Age Error: " + e.getMessage());
+            }
+
+        }
+        catch (Exception e) {
+            System.out.println("Input Error: " + e.getMessage());
+        }
+        finally {
+            System.out.println("Student eligibility check completed.");
+            sc.close();
+        }
+    }
+}
+
+
+
+// Input 
+Enter student name: prithvi
+Enter student age: 15
+
+// Output
+
+Age Error: Age is invalid. Student must be 18 or above.
+Student eligibility check completed.
