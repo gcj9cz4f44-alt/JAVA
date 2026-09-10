@@ -44,11 +44,21 @@ public class StudentEligibility {
 
 
 
-// Input 
-Enter student name: prithvi
+// Input for Invalid
+Enter student name: Karan
 Enter student age: 15
 
 // Output
 
 Age Error: Age is invalid. Student must be 18 or above.
+Student eligibility check completed.
+
+// Input For VALID
+Enter student name: Karan
+Enter student age: 18
+
+// Output 
+
+Student Name: Karan
+Student is eligible for admission.
 Student eligibility check completed.
