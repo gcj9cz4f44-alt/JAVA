@@ -1,0 +1,118 @@
+
+import java.util.Scanner;
+
+class TicketBooking {
+    private String passenger;
+    private String status;
+
+    TicketBooking(String passenger) {
+        this.passenger = passenger;
+        this.status = "Pending";
+    }
+
+    synchronized void bookTicket() {
+        if (passenger == null || passenger.trim().isEmpty()) {
+            status = "Failed";
+            System.out.println("Invalid passenger name!");
+            return;
+        }
+
+        status = "Confirmed";
+        System.out.println("Passenger: " + passenger);
+        System.out.println("Booking Status: " + status);
+        System.out.println("Thread: " +
+                Thread.currentThread().getName());
+        System.out.println("-------------------------");
+    }
+}
+
+class BookingThread extends Thread {
+    private TicketBooking booking;
+
+    BookingThread(TicketBooking booking, String name) {
+        super(name);
+        this.booking = booking;
+    }
+
+    public void run() {
+        if (booking == null) {
+            System.out.println("Invalid booking object!");
+            return;
+        }
+        booking.bookTicket();
+    }
+}
+
+class BookingRunnable implements Runnable {
+    private TicketBooking booking;
+
+    BookingRunnable(TicketBooking booking) {
+        this.booking = booking;
+    }
+
+    public void run() {
+        if (booking == null) {
+            System.out.println("Invalid booking object!");
+            return;
+        }
+        booking.bookTicket();
+    }
+}
+
+public class Multithreading {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of passengers: ");
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        if (n <= 0 || n > 50) {
+            System.out.println("Enter passengers between 1 and 50.");
+            sc.close();
+            return;
+        }
+
+        Thread[] threads = new Thread[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter passenger name " + (i + 1) + ": ");
+            String name = sc.nextLine();
+
+            TicketBooking booking = new TicketBooking(name);
+
+            if (i % 2 == 0) {
+                threads[i] = new BookingThread(
+                        booking, "BookingThread-" + (i + 1));
+            } else {
+                BookingRunnable task = new BookingRunnable(booking);
+                threads[i] = new Thread(
+                        task, "BookingRunnable-" + (i + 1));
+            }
+        }
+
+        System.out.println("\n--- Booking Results ---");
+
+        for (Thread t : threads) {
+            try {
+                t.start();
+            } catch (IllegalThreadStateException e) {
+                System.out.println("Thread already started!");
+            }
+        }
+
+        for (Thread t : threads) {
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("Booking process interrupted!");
+                sc.close();
+                return;
+            }
+        }
+
+        System.out.println("All booking requests processed.");
+        sc.close();
+    }
+}
