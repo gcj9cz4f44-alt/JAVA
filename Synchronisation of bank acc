@@ -1,0 +1,122 @@
+
+import java.util.Scanner;
+
+class BankAccount {
+    private double balance;
+
+    BankAccount(double balance) {
+        this.balance = balance;
+    }
+
+    synchronized void deposit(String user, double amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid deposit amount!");
+            return;
+        }
+        balance += amount;
+        System.out.println(user + " deposited Rs." + amount);
+        System.out.println("Balance: Rs." + balance);
+    }
+
+    synchronized void withdraw(String user, double amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid withdrawal amount!");
+        } else if (balance >= amount) {
+            balance -= amount;
+            System.out.println(user + " withdrew Rs." + amount);
+            System.out.println("Balance: Rs." + balance);
+        } else {
+            System.out.println("Insufficient Balance!");
+        }
+    }
+
+    synchronized void displayBalance() {
+        System.out.println("Final Balance: Rs." + balance);
+    }
+}
+
+class UserTransaction extends Thread {
+    BankAccount account;
+    String user, type;
+    double amount;
+
+    UserTransaction(BankAccount account, String user,
+                    String type, double amount) {
+        this.account = account;
+        this.user = user;
+        this.type = type;
+        this.amount = amount;
+    }
+
+    public void run() {
+        if (type.equalsIgnoreCase("deposit"))
+            account.deposit(user, amount);
+        else if (type.equalsIgnoreCase("withdraw"))
+            account.withdraw(user, amount);
+        else
+            System.out.println("Invalid transaction type!");
+    }
+}
+
+public class Synchronization {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter account holder name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter initial balance: ");
+        double balance = sc.nextDouble();
+
+        if (balance < 0) {
+            System.out.println("Invalid initial balance!");
+            sc.close();
+            return;
+        }
+
+        BankAccount account = new BankAccount(balance);
+
+        System.out.print("Enter number of transactions: ");
+        int n = sc.nextInt();
+
+        if (n <= 0) {
+            System.out.println("Invalid number of transactions!");
+            sc.close();
+            return;
+        }
+
+        UserTransaction[] threads = new UserTransaction[n];
+
+        for (int i = 0; i < n; i++) {
+            sc.nextLine();
+            System.out.print("Enter user name: ");
+            String user = sc.nextLine();
+
+            System.out.print("Enter type (deposit/withdraw): ");
+            String type = sc.nextLine();
+
+            System.out.print("Enter amount: ");
+            double amount = sc.nextDouble();
+
+            threads[i] = new UserTransaction(
+                account, user, type, amount
+            );
+        }
+
+        for (UserTransaction t : threads)
+            t.start();
+
+        try {
+            for (UserTransaction t : threads)
+                t.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.out.println("Transactions interrupted!");
+            sc.close();
+            return;
+        }
+
+        account.displayBalance();
+        sc.close();
+    }
+}
