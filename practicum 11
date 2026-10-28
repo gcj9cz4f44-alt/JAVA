@@ -1,0 +1,57 @@
+import java.util.*;
+
+public class P11 {
+    public static void main(String[] args) {
+        Hashtable<Integer, String> books = new Hashtable<>();
+        Scanner sc = new Scanner(System.in);
+        int ch;
+
+        do {
+            System.out.println("1.Add 2.Search 3.Remove 4.Display 5.Exit");
+            ch = Integer.parseInt(sc.nextLine());
+
+            switch (ch) {
+                case 1:
+                    int id = Integer.parseInt(sc.nextLine());
+                    books.put(id, sc.nextLine());
+                    System.out.println("Book added.");
+                    break;
+
+                case 2:
+                    int s = Integer.parseInt(sc.nextLine());
+                    if (books.containsKey(s))
+                        System.out.println(s + " " + books.get(s));
+                    else
+                        System.out.println("Book not found.");
+                    break;
+
+                case 3:
+                    int r = Integer.parseInt(sc.nextLine());
+                    if (books.containsKey(r)) {
+                        books.remove(r);
+                        System.out.println("Removed.");
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                    break;
+
+                case 4:
+                    if (books.isEmpty())
+                        System.out.println("No books.");
+                    else
+                        for (Map.Entry<Integer, String> e : books.entrySet())
+                            System.out.println(e.getKey() + " " + e.getValue());
+                    break;
+
+                case 5:
+                    System.out.println("Exit.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (ch != 5);
+
+        sc.close();
+    }
+}
