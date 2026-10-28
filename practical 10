@@ -1,0 +1,89 @@
+import java.util.*;
+
+class Student {
+    int id, sem;
+    String name, course;
+
+    Student(int id, String name, String course, int sem) {
+        this.id = id;
+        this.name = name;
+        this.course = course;
+        this.sem = sem;
+    }
+
+    void display() {
+        System.out.println(id + " " + name + " " + course + " " + sem);
+    }
+}
+
+public class P10 {
+    public static void main(String[] args) {
+        ArrayList<Student> list = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        int ch;
+
+        do {
+            System.out.println("1.Add 2.Remove 3.Search 4.Display 5.Exit");
+            ch = sc.nextInt();
+
+            switch (ch) {
+                case 1:
+                    int id = sc.nextInt();
+                    String name = sc.next();
+                    String course = sc.next();
+                    int sem = sc.nextInt();
+
+                    list.add(new Student(id, name, course, sem));
+                    System.out.println("Student added.");
+                    break;
+
+                case 2:
+                    int rid = sc.nextInt();
+                    boolean rem = false;
+
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).id == rid) {
+                            list.remove(i);
+                            rem = true;
+                            break;
+                        }
+                    }
+
+                    System.out.println(rem ? "Removed." : "Not found.");
+                    break;
+
+                case 3:
+                    int sid = sc.nextInt();
+                    boolean f = false;
+
+                    for (Student s : list) {
+                        if (s.id == sid) {
+                            s.display();
+                            f = true;
+                        }
+                    }
+
+                    if (!f)
+                        System.out.println("Not found.");
+                    break;
+
+                case 4:
+                    if (list.isEmpty())
+                        System.out.println("No records.");
+                    else
+                        for (Student s : list)
+                            s.display();
+                    break;
+
+                case 5:
+                    System.out.println("Exit.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (ch != 5);
+
+        sc.close();
+    }
+}
