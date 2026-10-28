@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.Scanner;
+
+class LibraryTransaction {
+    String id, bn, un, d1, d2;
+
+    LibraryTransaction(String id, String bn, String un,
+                       String d1, String d2) {
+        this.id = id;
+        this.bn = bn;
+        this.un = un;
+        this.d1 = d1;
+        this.d2 = d2;
+    }
+
+    public String toString() {
+        return id + " | " + bn + " | " + un + " | " + d1 + " | " + d2;
+    }
+}
+
+public class P12 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int ch;
+
+        do {
+            System.out.println("1.Record 2.View 3.Exit");
+            ch = Integer.parseInt(sc.nextLine());
+
+            switch (ch) {
+                case 1:
+                    String id = sc.nextLine(), bn = sc.nextLine(),
+                           un = sc.nextLine();
+                    String d1 = sc.nextLine(), d2 = sc.nextLine();
+
+                    if (bn.isEmpty() || un.isEmpty()) {
+                        System.out.println("Incomplete.");
+                        break;
+                    }
+
+                    LibraryTransaction t =
+                        new LibraryTransaction(id, bn, un, d1, d2);
+
+                    try (FileWriter fw = new FileWriter("t.txt", true)) {
+                        fw.write(t + "\n");
+                        System.out.println("Recorded.");
+                    } catch (IOException e) {
+                        System.out.println("Error");
+                    }
+                    break;
+
+                case 2:
+                    File f = new File("t.txt");
+
+                    if (!f.exists()) {
+                        System.out.println("No records.");
+                        break;
+                    }
+
+                    try (BufferedReader br =
+                             new BufferedReader(new FileReader(f))) {
+                        String line;
+                        while ((line = br.readLine()) != null)
+                            System.out.println(line);
+                    } catch (IOException e) {
+                        System.out.println("Error");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Exit.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (ch != 3);
+
+        sc.close();
+    }
+}
