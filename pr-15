@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Login</title>
+</head>
+<body>
+
+    <h2>College Student Portal</h2>
+
+    <form action="validate.jsp" method="post">
+
+        Username:
+        <input type="text" name="username" required>
+        <br><br>
+
+        Password:
+        <input type="password" name="password" required>
+        <br><br>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+</body>
+</html>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<%
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+
+    if (username == null || password == null ||
+        username.trim().isEmpty() ||
+        password.trim().isEmpty()) {
+
+        out.println("All fields are required. ");
+        out.println("<a href='login.jsp'>Try Again</a>");
+
+    }
+
+    else if ("student1".equals(username) &&
+             "pass123".equals(password)) {
+
+        session.setAttribute("username", username);
+        session.setAttribute("name", "Rahul Sharma");
+        session.setAttribute("roll", "101");
+        session.setAttribute("department", "CSE");
+        session.setAttribute("semester", "3");
+
+        application.setAttribute(
+            "lastLogin", System.currentTimeMillis());
+
+        response.sendRedirect("home.jsp");
+
+    }
+
+    else {
+
+        out.println("Invalid Username or Password. ");
+        out.println("<a href='login.jsp'>Try Again</a>");
+
+    }
+%>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<%
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+
+    if (username == null || password == null ||
+        username.trim().isEmpty() ||
+        password.trim().isEmpty()) {
+
+        out.println("All fields are required. ");
+        out.println("<a href='login.jsp'>Try Again</a>");
+
+    }
+
+    else if ("student1".equals(username) &&
+             "pass123".equals(password)) {
+
+        session.setAttribute("username", username);
+        session.setAttribute("name", "Rahul Sharma");
+        session.setAttribute("roll", "101");
+        session.setAttribute("department", "CSE");
+        session.setAttribute("semester", "3");
+
+        application.setAttribute(
+            "lastLogin", System.currentTimeMillis());
+
+        response.sendRedirect("home.jsp");
+
+    }
+
+    else {
+
+        out.println("Invalid Username or Password. ");
+        out.println("<a href='login.jsp'>Try Again</a>");
+
+    }
+%>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<%
+    response.setHeader("Cache-Control", "no-store");
+
+    if (session.getAttribute("username") == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+</head>
+<body>
+
+    <h2>College Student Portal</h2>
+
+    <h3>
+        Welcome, <%= session.getAttribute("name") %>
+    </h3>
+
+    <p>
+        Roll Number:
+        <%= session.getAttribute("roll") %>
+    </p>
+
+    <p>
+        Department:
+        <%= session.getAttribute("department") %>
+    </p>
+
+    <p>
+        Semester:
+        <%= session.getAttribute("semester") %>
+    </p>
+
+    <hr>
+
+    <a href="attendance.jsp">View Attendance</a>
+    <br><br>
+
+    <a href="marks.jsp">View Marks</a>
+    <br><br>
+
+    <form action="logout.jsp" method="post">
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<%
+    response.setHeader("Cache-Control", "no-store");
+
+    if (session.getAttribute("username") == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Attendance</title>
+</head>
+<body>
+
+    <h2>
+        Attendance -
+        <%= session.getAttribute("name") %>
+    </h2>
+
+    <table border="1" cellpadding="8">
+
+        <tr>
+            <th>Subject</th>
+            <th>Attendance</th>
+        </tr>
+
+        <tr>
+            <td>Java Programming</td>
+            <td>90%</td>
+        </tr>
+
+        <tr>
+            <td>DBMS</td>
+            <td>85%</td>
+        </tr>
+
+        <tr>
+            <td>Mathematics</td>
+            <td>92%</td>
+        </tr>
+
+        <tr>
+            <td>Computer Networks</td>
+            <td>88%</td>
+        </tr>
+
+    </table>
+
+    <br>
+
+    <a href="home.jsp">Back to Home</a>
+
+</body>
+</html>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+
+<%
+    if (!"POST".equalsIgnoreCase(request.getMethod())) {
+
+        response.sendError(405);
+        return;
+
+    }
+
+    session.invalidate();
+
+    response.sendRedirect("login.jsp");
+%>
