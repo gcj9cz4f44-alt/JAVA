@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Shopping</title>
+</head>
+
+<body>
+
+    <h2>Online Shopping Website</h2>
+
+    <!-- Customer Login -->
+    <h3>Customer Login</h3>
+
+    <form action="shop" method="post">
+
+        <input type="hidden" name="action" value="login">
+
+        Username:
+        <input type="text" name="username" required>
+        <br><br>
+
+        Password:
+        <input type="password" name="password" required>
+        <br><br>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+    <hr>
+
+    <!-- Product Search -->
+    <h3>Product Search</h3>
+
+    <form action="shop" method="get">
+
+        Product:
+        <input type="text" name="product" required>
+
+        <button type="submit">Search</button>
+
+    </form>
+
+    <hr>
+
+    <!-- Order Placement -->
+    <h3>Order Placement</h3>
+
+    <form action="shop" method="post">
+
+        <input type="hidden" name="action" value="order">
+
+        Customer:
+        <input type="text" name="customer" required>
+        <br><br>
+
+        Product:
+        <input type="text" name="product" required>
+        <br><br>
+
+        Quantity:
+        <input type="number" name="quantity" min="1" required>
+        <br><br>
+
+        <button type="submit">Place Order</button>
+
+    </form>
+
+</body>
+</html>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <servlet>
+        <servlet-name>ShoppingServlet</servlet-name>
+        <servlet-class>ShoppingServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShoppingServlet</servlet-name>
+        <url-pattern>/shop</url-pattern>
+    </servlet-mapping>
+
+</web-app>
